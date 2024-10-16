@@ -4,13 +4,16 @@ import requests
 import streamlit as st
 import zipfile
 import os
+from dotenv import load_dotenv
 
-try:
-    if os.getenv('DOCKER_ENV') == "true":
-        API_URL = "http://host.docker.internal:8000"
-    else:
-        API_URL = "http://127.0.0.1:8000"
-except:
+
+load_dotenv()
+
+if not os.getenv('API_URL'):
+    API_URL = os.getenv('API_URL')
+elif os.getenv('DOCKER_ENV'):
+    API_URL = "http://host.docker.internal:8000"
+else:
     API_URL = "http://127.0.0.1:8000"
 
 
